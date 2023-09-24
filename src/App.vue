@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import Fix from '@/components/Fix/Fix.vue'
+import Fix from '@/views/Fix/Fix.vue'
+import Logs from '@/views/Logs/Logs.vue'
+
+const LogsShow = ref(false)
+
+const onHandleButton = (type:string, value: any):void => {
+  if (type === 'Logs') {
+    LogsShow.value = value
+  }
+}
 </script>
 
 <template>
-  <Fix />
+  <Fix @handleButton="onHandleButton"/>
+  <Logs :LogsShow="LogsShow" @closeLogs="onHandleButton"/>
 </template>
 
 <style scoped>

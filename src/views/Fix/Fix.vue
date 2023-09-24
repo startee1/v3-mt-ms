@@ -7,6 +7,9 @@ const toggleDark = useToggle(isDark)
 const toggleTheme = () => {
   toggleDark()
 }
+const emits = defineEmits<{
+  handleButton: [type:string, value: any]
+}>()
 </script>
 
 <template>
@@ -15,7 +18,7 @@ const toggleTheme = () => {
       <el-icon  v-if="!isDark" :size="size"><i-ep-sunny /></el-icon>
       <el-icon  v-if="isDark" :size="size" color="#fff"><i-ep-moon /></el-icon>
     </div>
-    <div class="button">
+    <div class="button" @click="emits('handleButton', 'Logs', true  )">
       <el-icon :size="size" v-if="!isDark"><i-ep-notebook /></el-icon>
       <el-icon :size="size"  v-if="isDark" color="#fff"><i-ep-notebook /></el-icon>
     </div>
