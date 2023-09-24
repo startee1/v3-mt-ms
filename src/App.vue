@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
-
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+import Fix from '@/components/Fix/Fix.vue'
 </script>
 
 <template>
-  <div>my class</div>
-  <div><el-button @click="toggleDark()">my button</el-button></div>
+  <Fix />
 </template>
 
 <style scoped>

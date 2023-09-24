@@ -9,7 +9,11 @@ declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElIcon: typeof import('element-plus/es')['ElIcon']
-    Fix: typeof import('./src/components/Fix/Fix.vue')['default']
+    Fix: typeof import('./components/Fix/Fix.vue')['default']
+    IEpCircleCheckFilled: typeof import('~icons/ep/circle-check-filled')['default']
+    IEpMoon: typeof import('~icons/ep/moon')['default']
+    IEpNotebook: typeof import('~icons/ep/notebook')['default']
+    IEpSunny: typeof import('~icons/ep/sunny')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
