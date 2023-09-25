@@ -1,4 +1,6 @@
 import {  RouteRecordRaw } from "vue-router";
+import Login from '@/views/Login/Login.vue'
+import Register from '@/views/Login/Register.vue'
 
 
 export const constantRouterMap: Array<RouteRecordRaw> = [
@@ -7,11 +9,16 @@ export const constantRouterMap: Array<RouteRecordRaw> = [
     name: 'index',
     redirect: '/login'
   },
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   component: () => import('@/views/Login/Login.vue')
-  // },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
+  },
   // {
   //   path: '/403',
   //   name: '403',
