@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-const props = defineProps<{isCollapse: boolean}>()
+const props = defineProps<{isCollapse: boolean,headerHeight: number}>()
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const props = defineProps<{isCollapse: boolean}>()
      :collapse="props.isCollapse"
      style="height: 100%;"
    >
-     <el-menu-item index="1">
+     <el-menu-item index="1" :style="{height: props.headerHeight+'px'}">
        <el-icon><i-ep-setting /></el-icon>
        <template #title>Navigator Four</template>
      </el-menu-item>

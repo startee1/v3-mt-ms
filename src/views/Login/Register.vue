@@ -1,30 +1,25 @@
 <script setup lang="ts">
 import Basic from './Basic.vue'
 import type { FormInstance, FormRules } from 'element-plus'
-
-interface IForm {
-  name: string
-  password: string
-  confirmPassword: string
-}
+import type { IUser } from '@/types'
 
 const ruleFormRef = ref<FormInstance>()
-const form = ref<IForm>({
-  name: '',
+const form = reactive<IUser>({
+  username: '',
   password: '',
-  confirmPassword: ''
+  checkPassword: ''
 })
 
-const rules = reactive<FormRules<IForm>>({
-  name: [
+const rules = reactive<FormRules<IUser>>({
+  username: [
     { required: true, message: '请输入账号', trigger: 'blur' },
-    { min: 3, max: 8, message: '账号长度仅限 3 到 8', trigger: 'blur' },
+    { min: 3, max: 10, message: '账号长度仅限 3 到 10', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 12, message: '密码长度仅限 6 to 12', trigger: 'blur' },
   ],
-  confirmPassword: [
+  checkPassword: [
     { required: true, message: '请确认密码', trigger: 'blur' },
   ]
 })
@@ -54,14 +49,14 @@ const resetForm = (formEl: FormInstance | undefined) => {
         style="max-width: 400px;margin: auto;" 
         :rules="rules"
       >
-        <el-form-item label="账号" prop="name">
-          <el-input v-model="form.name" />
+        <el-form-item label="账号" prop="username">
+          <el-input v-model="form.username" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input v-model="form.password" type="password"/>
         </el-form-item>
-        <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input v-model="form.confirmPassword" type="password"/>
+        <el-form-item label="确认密码" prop="checkPassword">
+          <el-input v-model="form.checkPassword" type="password"/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
