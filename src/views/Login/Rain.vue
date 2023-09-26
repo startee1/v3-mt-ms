@@ -28,9 +28,9 @@ const e = {
     canvas: any;
     ctx: any;
     repeat: number;
-    stars: never[];
-    frontCallbacks: never[];
-    behindCallbacks: never[];
+    stars: any[];
+    frontCallbacks: any[];
+    behindCallbacks: any[];
     fps: number;
     lastCalledTime: number;
     lastGenerated: number;
