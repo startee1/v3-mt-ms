@@ -2,6 +2,7 @@
   line-height: 1.3;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
+  --g-background-color: rgb(241,243,244);
 }
 
 html.dark {

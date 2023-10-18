@@ -4,7 +4,7 @@ import GNav from './GNav.vue';
 import GMain from './GMain.vue';
 import GSlider from './GSlider.vue';
 
-const isCollapse = ref<boolean>(true)
+const isCollapse = ref<boolean>(false)
 const headerHeight = 60
 const onChangeMenu = () => {
   isCollapse.value = !isCollapse.value
@@ -20,7 +20,7 @@ const onChangeMenu = () => {
         <GHeader :height="headerHeight" @on-handle-menu="onChangeMenu"/>
         <GNav />
       </aside>
-      <main style="flex:1">
+      <main style="flex:1;padding: 15px;overflow: hidden;" class="bg-grey">
         <GMain>
           <template #default>
             <slot/>
@@ -32,5 +32,13 @@ const onChangeMenu = () => {
 </template>
 
 <style scoped>
-
+main {
+  flex:1;
+  padding: 15px;
+  overflow: hidden;
+  background-color: var(--g-background-color);
+}
+.dark main {
+  background-color: #606060;
+}
 </style>

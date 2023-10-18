@@ -30,4 +30,11 @@ const logOff = () => {
   opacity: 0.8;
   cursor: pointer;
 }
+.a span:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.reda {
+  color: rgb(126, 104, 75);
+}
 </style>

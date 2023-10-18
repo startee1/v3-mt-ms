@@ -18,23 +18,17 @@ _注2：欢迎个人使用并提出建议，不要用于商业用途_
 
 # 功能
 
-- [ ] 登录
-- [ ] 注册
-- [ ] 权限管理
-- [ ] 页面路由记录
-- [ ] 商家上传商品
-- [ ] 商家详情页面
-- [ ] 商家商品交易记录
-- [ ] 员工功能
-- [ ] 网站信息统计
-- [ ] 扫码进入网站
-- [ ] 网站流量统计
-- [ ] 用户列表
-- [ ] 订单详情
-- [ ] 用户信息页
-- [ ] 用户修改密码
-- [ ] 商家商品评价列表
-- [ ] 注册
+- [×] Login
+- [×] UserInfo
+- [ ] AdminSettings
+- [×] AdminUser
+- [ ] AdminShopInfo
+- [×] Shop
+- [×] Goods
+- [ ] Error
+- [×] Logs
+- [×] Fix
+
 
 # 页面
 
@@ -67,28 +61,22 @@ _注2：欢迎个人使用并提出建议，不要用于商业用途_
 │   │   ├── AdminSettings             
 │   │   │   ├── AdminSettingsFoodType.vue   食品类型选项            
 │   │   │   └── AdminSettingsDistance.vue   配送距离选项          
-│   │   ├── AdminUser             
-│   │   │   └── AdminUserList.vue           用户列表            
-│   │   ├── AdminShop                       
-│   │   │   ├── AdminShopList.vue           商铺列表            
-│   │   │   ├── AdminShopAdd.vue            商铺添加页            
-│   │   │   ├── AdminShopDialog.vue         商铺信息弹窗页
-│   │   │   └── AdminShopInfo.vue           商铺详情信息页 / 可修改信息
-│   │   ├── AdminShopDeal
-│   │   │   └── AdminShopDeal.vue           全部商铺交易数据页      
-│   │   ├── AdminShopComment
+│   │   ├── AdminUser                        
+│   │   │   └── AdminUserList.vue           用户列表            [在此添加商铺]
+│   │   ├── AdminShop
+│   │   │   ├── AdminShopOrder.vue          全部商铺订单数据页      
 │   │   │   └── AdminShopComment.vue        全部商铺评论页       
 │   │   ├── Shop  
 │   │   │   ├── ShopComment.vue             商铺评论页
-│   │   │   ├── ShopDeal.vue                商铺交易数据页
+│   │   │   ├── ShopOrder.vue               商铺订单数据页
 │   │   │   └── ShopInfo.vue                商铺详情信息页 / 可修改信息
 │   │   ├── Goods              
+│   │   │   ├── children                       
+│   │   │   │   ├── GoodsChioce.vue         商品规格页
+│   │   │   │   └── GoodsTable.vue          商品编辑表格
 │   │   │   ├── GoodsList.vue               商品列表            
-│   │   │   ├── GoodsAdd.vue                商品添加页            
-│   │   │   ├── GoodsDialog.vue             商品信息弹窗页
+│   │   │   ├── GoodsAdd.vue                商品添加页       
 │   │   │   └── GoodsInfo.vue               商品信息页 / 可修改信息
-│   │   ├── Permission            
-│   │   │   └── Permission.vue              权限控制页
 │   │   ├── DataShow              
 │   │   │   └── DataShow.vue                数据展示页
 │   │   ├── Error                           错误页面

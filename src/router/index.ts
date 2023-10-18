@@ -1,6 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { constantRouterMap, generatorRoute } from './routerConfig'
-import { useUserStateStore } from '@/stores'
+import { useUserStateStore, useRouteMenuStore, useRouteNavStore, useNotKeepAliveStore } from '@/stores'
+
+const generatorRouteMenu = () => {
+  const routeMenu = useRouteMenuStore()
+  const userState = useUserStateStore()
+  const power = userState.getPower()
+  routeMenu.generator(generatorRoute,power)
+}
 
 
 const router = createRouter({
@@ -11,11 +18,16 @@ const router = createRouter({
 const whitePath = ['login','register']
 
 router.beforeEach((to, from, next) => {
-  if (to.name && !whitePath.includes(to.name) && !window.sessionStorage.getItem('uid')) {
+  const routeNavStore = useRouteNavStore()
+  const notKeepAliveCache = useNotKeepAliveStore()
+  generatorRouteMenu()
+  if (to.name && !whitePath.includes(to.name as string) && !window.sessionStorage.getItem('uid')) {
     next({ name: 'login' })
   } else if (to.name && to.name == 'login' && window.sessionStorage.getItem('uid')) {
     next({ name: 'dataShow' })
   } else {
+    notKeepAliveCache.removeExcludes([to.name!])
+    routeNavStore.add({path: to.fullPath, name: to.name || '', title: to.meta.title as string})
     next()
   }
 })

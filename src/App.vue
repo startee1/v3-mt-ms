@@ -15,7 +15,7 @@ const onHandleButton = (type:string, value: any):void => {
 <template>
   <Fix @handleButton="onHandleButton"/>
   <Logs :LogsShow="LogsShow" @closeLogs="onHandleButton"/>
-  <router-view />
+  <router-view/>
 </template>
 
 <style scoped>
