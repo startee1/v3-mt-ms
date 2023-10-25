@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Basic from './Basic.vue'
+import { RegisterApi, LoginApi } from '@/services/api'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { IUser } from '@/types'
 
@@ -10,26 +11,60 @@ const form = reactive<IUser>({
   checkPassword: ''
 })
 
+const validateUsername = (_rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请输入账号'))
+  } else {
+    if (form.username.length < 4 || form.username.length > 10) {
+      callback(new Error('账号长度仅限 4 to 10'))
+    } else if (!/^[A-Za-z0-9]+$/.test(form.username)) {
+      callback(new Error('账号仅限数字和字母的组合'))
+    } else {
+      callback()
+    }
+  }
+}
+
+const validatePassword = (_rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请输入密码'))
+  } else {
+    if (form.password.length < 6 || form.password.length > 12) {
+      callback(new Error('账号长度仅限 6 to 12'))
+    } else if (!/^[A-Za-z0-9]+$/.test(form.password)) {
+      callback(new Error('密码仅限数字和字母的组合'))
+    } else {
+      callback()
+    }
+  }
+}
+
+const validateCheckPassword = (_rule: any, _value: any, callback: any) => {
+  if (form.checkPassword != form.password) {
+    callback(new Error('两次密码输入不一致'))
+  } else {
+    callback()
+  }
+}
+
 const rules = reactive<FormRules<IUser>>({
-  username: [
-    { required: true, message: '请输入账号', trigger: 'blur' },
-    { min: 3, max: 10, message: '账号长度仅限 3 到 10', trigger: 'blur' },
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 12, message: '密码长度仅限 6 to 12', trigger: 'blur' },
-  ],
-  checkPassword: [
-    { required: true, message: '请确认密码', trigger: 'blur' },
-  ]
+  username: [{ validator: validateUsername, trigger: 'blur' }],
+  password: [{ validator: validatePassword, trigger: 'blur' }],
+  checkPassword: [{ validator: validateCheckPassword, trigger: 'blur' }],
 })
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
+  await formEl.validate((valid, _fields) => {
+    if (valid && (form.password === form.checkPassword)) {
+      RegisterApi({username: form.username, password: form.password})
+      .then(res => {
+        if (res) {
+          ElMessage.success('注册成功')
+          LoginApi({username: form.username, password: form.password})
+        }
+      })
     } else {
-      console.log('error submit!', fields)
+      ElMessage.error('输入错误！');
     }
   })
 }

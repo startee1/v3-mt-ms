@@ -47,6 +47,8 @@ const e = {
     frequency: any;
     randomOpacity: any;
     spread: any;
+    width!: number;
+    height!: number;
     constructor(t: HTMLCanvasElement | string | undefined, s = {}) {
       this.canvas = t instanceof HTMLCanvasElement ? t : document.querySelector(t),
         this.ctx = this.canvas.getContext("2d"),
@@ -66,12 +68,7 @@ const e = {
         requestAnimationFrame((t => this.render(t)))
         // console.log(this.width, this.height)
     }
-    width(_arg0: string, _width: any) {
-      throw new Error('Method not implemented.');
-    }
-    height(_arg0: string, _height: any) {
-      throw new Error('Method not implemented.');
-    }
+   
     update() {
       this.stars.map(((t, _s) => {
         t.progress += t.speed
@@ -97,7 +94,7 @@ const e = {
       this.spread = s.spread
     }
     setBackground() {
-      let t: string;
+      let t: string = '';
       "string" == typeof this.backgroundColor ? t = this.backgroundColor : "object" == typeof this.backgroundColor && (t = this.ctx.createLinearGradient(this.canvas.width / 2, 0, this.canvas.width / 2, this.canvas.height),
         this.backgroundColor.forEach(((s: any, e: number) => {
           t.addColorStop(e / this.backgroundColor.length, s)
@@ -113,7 +110,7 @@ const e = {
       this.ctx.strokeStyle = "white",
         this.stars.forEach((t => {
           let s: { addColorStop: (arg0: number, arg1: any) => any; };
-          this.behindCallbacks.forEach((t => t(ctx))),
+          this.behindCallbacks.forEach((t => t(this.ctx))),
             "object" == typeof this.starColor ? (s = this.ctx.createLinearGradient(0, 0, this.canvas.width, this.canvas.height),
               this.starColor.forEach(((t: any, e: number) => s.addColorStop(e / this.starColor.length, t)))) : s = this.starColor,
             this.ctx.save(),
@@ -121,7 +118,7 @@ const e = {
             this.ctx.beginPath(),
             this.ctx.moveTo(t.start.x, t.start.y),
             this.ctx.setLineDash([this.starSize, t.startPoint * this.frequency]),
-            this.ctx.lineDashOffset = this.directionY * (t.progress + t.length),
+            this.ctx.lineDashOffset = this.directionY! * (t.progress + t.length),
             this.ctx.quadraticCurveTo(t.curve.x, t.curve.y, t.end.x, t.end.y),
             this.ctx.stroke(),
             this.ctx.closePath(),

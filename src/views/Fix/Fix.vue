@@ -18,10 +18,10 @@ const emits = defineEmits<{
       <el-icon  v-if="!isDark" :size="size"><i-ep-sunny /></el-icon>
       <el-icon  v-if="isDark" :size="size" color="#fff"><i-ep-moon /></el-icon>
     </div>
-    <div class="button" @click="emits('handleButton', 'Logs', true  )">
+    <!-- <div class="button" @click="emits('handleButton', 'Logs', true  )">
       <el-icon :size="size" v-if="!isDark"><i-ep-notebook /></el-icon>
       <el-icon :size="size"  v-if="isDark" color="#fff"><i-ep-notebook /></el-icon>
-    </div>
+    </div> -->
   </div>
 </template>
 

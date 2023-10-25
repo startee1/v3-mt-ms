@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import Basic from './Basic.vue'
+import { useUserStateStore } from '@/stores'
+import { LoginApi } from '@/services/api.ts'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { IUser } from '@/types'
-import { useUserStateStore } from '@/stores'
 // 用户状态
 const userState = useUserStateStore()
 // 表单元素绑定
 const ruleFormRef = ref<FormInstance>()
 // 表单信息
 const form = reactive<IUser>({
-  username: '',
-  password: '',
+  username: 'testtest',
+  password: 'testtest',
 })
 // 表单验证规则
 const rules = reactive<FormRules<IUser>>({
@@ -28,8 +29,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      userState.Login(form.username, form.password)
-      console.log('submit!')
+      LoginApi({username: form.username, password: form.password})
+      .then(res => {
+        if (res) {
+          let {id, username, name, power, token} = res.data
+          userState.Login(id, username, name, power, token)
+        }
+      })
     } else {
       console.log('error submit!', fields)
     }

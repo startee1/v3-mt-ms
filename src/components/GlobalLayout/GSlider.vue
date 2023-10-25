@@ -11,7 +11,7 @@ const menuActive = ref<string>('')
 
 
 onMounted(() => {
-  menuList.value = routeMenu.getRouteMenu()[0].children || []
+  menuList.value = routeMenu.getRouteMenu() || []
   menuActive.value = route.path
 })
 const jumpTo = (key: string) => {

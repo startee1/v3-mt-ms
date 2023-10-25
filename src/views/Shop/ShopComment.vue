@@ -2,12 +2,12 @@
 
 const commentData = ref([
   {
-    time: 'asdasd',
-    user: 'asdasd',
-    text: 'asdasd',
-    shop: 'asdasd',
-    goods: 'asdasd',
-    rate: '123',
+    time: '2023/10/20 12:10:23',
+    user: '管理员',
+    text: '内容',
+    shop: '商店',
+    goods: '商品',
+    rate: '5',
   }
 ])
 </script>

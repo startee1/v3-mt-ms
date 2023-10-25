@@ -1,16 +1,14 @@
 # 介绍
 
-后台内容根据前端展示猜测上传内容
+_注1：该系统个人开发练手_
 
-_注1：该系统个人开发练手，于真正的美团项目无任何联系_
-
-_注2：欢迎个人使用并提出建议，不要用于商业用途_
+_注2：欢迎查看，提出建议_
 
 # 技术栈
 
 前端：vue + element-plus + pinia + vue-router
 
-后端: mysql + nodejs + express + redis 等 node 常用包 (fs, path...)
+后端: mysql + nodejs + express  等 node 常用包 
 
 # 相关链接
 
@@ -20,9 +18,9 @@ _注2：欢迎个人使用并提出建议，不要用于商业用途_
 
 - [×] Login
 - [×] UserInfo
-- [ ] AdminSettings
+- [×] AdminSettings
 - [×] AdminUser
-- [ ] AdminShopInfo
+- [×] AdminShopInfo
 - [×] Shop
 - [×] Goods
 - [ ] Error
@@ -59,8 +57,7 @@ _注2：欢迎个人使用并提出建议，不要用于商业用途_
 │   │   ├── UserInfo              
 │   │   │   └── UserInfo.vue                个人信息页 / 可修改信息
 │   │   ├── AdminSettings             
-│   │   │   ├── AdminSettingsFoodType.vue   食品类型选项            
-│   │   │   └── AdminSettingsDistance.vue   配送距离选项          
+│   │   │   └── AdminSettingsFoodType.vue   食品类型选项           
 │   │   ├── AdminUser                        
 │   │   │   └── AdminUserList.vue           用户列表            [在此添加商铺]
 │   │   ├── AdminShop

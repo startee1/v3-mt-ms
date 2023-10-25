@@ -36,42 +36,45 @@ export interface IOrderGoods {
 // 商品信息 
 export interface IGoods {
   id?: number                           // 唯一标识符
-  shop?: string                         // 所属商家
+  shopid?: number                       // 所属商家
   logo?: string                         // 商品图片
-  myshow?: 1 | 0                        // 商品图片
+  myshow?: 1 | 0                        // 商品是否展示
   type?: string                         // 商品分类
   title?: string                        // 商品名称
-  prices?: number                       // 商品单个价格
+  price?: number                        // 商品单个价格
   singleSell?: 1 | 0                    // 商品是否单个可售
-  menuTypes?: Array<string>             // 商品所属菜单列表
+  menuType?: string                     // 商品所属菜单列表
   size?: string                         // 商品分量
   isChoice?: 1 | 0                      // 商品是否可选规格
-  choice?: Array<IChoice>               // 商品可选规格内容
+  choice?: string                       // 商品可选规格内容
   discount?: number                     // 商品折扣
   packingCharges?: number               // 商品打包费用
   goodsLogo?: IGoodsLogo                // 商品右上角 Logo
   pubdate?: string                      // 商品发布日期
 }
-// 商品规格描述
-export interface IChoice {
-  description: string
-  prices?: number
+// 菜单列表
+export interface IMenu {
+  id?: number
+  shopid?: number
+  name?: string
 }
 export type IGoodsLogo =  '无' | '招牌' | '新品'
 // 店铺信息
 export interface IShop {
   id?: number                 // 唯一标识
+  myshow?: number             // 是否展示
+  shopid?: number             // 商铺账号信息
   title?: string              // 商品名称
   address?: string            // 地址
   phone?: string              // 电话
-  type?: string               // 店铺分类
+  typemainid?: number         // 店铺主分类
+  typeviceid?: number         // 店铺次分类
   preview?: string            // 标语
   info?: string               // 简介
   deliveryPrice?: number      // 配送费
   minPriceDelivery?: number   // 起始配送费
   startTime?: string          // 起始营业时间
   endTime?: string            // 结束营业时间
-  createTime?: string         // 创建时间
   logo?: string               // 店铺头像
   background?: string         // 店铺背景
   yinyezhizhao?: string       // 营业执照

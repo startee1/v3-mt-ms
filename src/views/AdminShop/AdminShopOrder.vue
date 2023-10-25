@@ -3,10 +3,10 @@ import type {IOrder} from '@/types'
 
 const commentData = ref<Array<IOrder>>([
   {
-    createTime: '123',
+    createTime: '2023/10/20 10:23:54',
     status: '支付超时',
-    userid: '123123',
-    shopid: '123123',
+    userid: '管理员',
+    shopid: '商铺',
     goodsList: []
   }
 ])

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import type { RouteRecordName } from 'vue-router';
 import { useRouteNavStore, useNotKeepAliveStore } from '@/stores'
 import type { IRouteNav } from '@/types'
@@ -7,9 +7,7 @@ import type { IRouteNav } from '@/types'
 
 const routeNavStore = useRouteNavStore() // 监听路由改变
 const notKeepAliveCache = useNotKeepAliveStore() // 去除缓存
-const route = useRoute()
 const router = useRouter()
-
 const routePathThis = ref<RouteRecordName>('')
 const routeThis = ref<IRouteNav>({title: '',name: '',path: ''})
 // 清除单个导航通知

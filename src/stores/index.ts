@@ -1,37 +1,46 @@
 import { defineStore } from 'pinia'
 import { IRouteMenu, IRouteNav } from '@/types'
-import { useRouter } from "vue-router";
 import type{ RouteRecordRaw, RouteRecordName } from "vue-router";
 import router from '@/router';
  
 export const useUserStateStore = defineStore('userState', () => {
   const userInfo = reactive({
+    id: '',
     username: '',
-    password: '',
-    uid: '',
-    power: '*',
+    name: '',
+    token: '',
+    power: '',
   })
 
-  const Login = (argUsername: string, argPassword: string, argUid: string = '12312') => {
+  const Login = (argID: string, argUsername: string, argName: string, argPower: string, argToken: string = '') => {
+    userInfo.id = argID
     userInfo.username = argUsername
-    userInfo.password = argPassword
-    userInfo.uid = argUid
-    console.log(argUsername, argPassword, argUsername == '111' && argPassword == '123456')
-    if (argUsername == '111' && argPassword == '123456') userInfo.power = '管理员'
-    if (argUsername == '222' && argPassword == '123456') userInfo.power = '商铺'
-    window.sessionStorage.setItem('uid', argUid)
-    if (userInfo.power == '管理员' || userInfo.power == '*') router.push({name: 'dataShow'})
+    userInfo.name = argName
+    userInfo.power = argPower
+    userInfo.token = argToken
+    window.sessionStorage.setItem('id', argID)
+    window.sessionStorage.setItem('username', argUsername)
+    window.sessionStorage.setItem('name', argName)
+    window.sessionStorage.setItem('power', argPower)
+    window.sessionStorage.setItem('token', argToken)
+    if (userInfo.power == '管理员' || userInfo.power == '超级管理员' || userInfo.power == '测试') router.push({name: 'dataShow'})
     else if (userInfo.power == '商铺') router.push({name: 'ShopInfo'})
   }
   const Logoff = () => {
+    userInfo.id = ''
     userInfo.username = ''
-    userInfo.password = ''
-    userInfo.uid = ''
-    window.sessionStorage.removeItem('uid')
+    userInfo.name = ''
+    userInfo.power = ''
+    userInfo.token = ''
+    window.sessionStorage.removeItem('id')
+    window.sessionStorage.removeItem('username')
+    window.sessionStorage.removeItem('name')
+    window.sessionStorage.removeItem('power')
+    window.sessionStorage.removeItem('token')
     window.location.reload()
   }
   const getUserInfo = () => {
-    return {username: userInfo.username, password: userInfo.password}
+    return {username: userInfo.username, name: userInfo.name}
   }
   const setPower = (power:string) => {
     userInfo.power = power
@@ -46,16 +55,17 @@ export const useRouteMenuStore = defineStore('routeMenu', () => {
   const routeMenu = ref<IRouteMenu[]>([])
   const menuOpen = ref<string>('')
   const getRouteMenu = () => routeMenu.value
-  const generatorRouteMenu = (route:RouteRecordRaw[], power: string = '*', pre: string = '') => {
+  const generatorRouteMenu = (route:RouteRecordRaw[], power: string = '*', pre: string = '/mg') => {
+    if (route.length == 0) return []
     const menu:IRouteMenu[] = []
-    route = route.filter(r => !r.meta?.hidden && (power === '*' || r.meta?.permission === '*' || r.meta?.permission === power))
+    route = route.filter(r => !r.meta?.hidden && (power === '超级管理员' || power === '测试' || r.meta?.permission === '*' || r.meta?.permission === power))
     if (pre) pre += '/'
     for (let i = 0; i < route.length; i++) {
       menu[i] = {
         title: route[i].meta?.title as string || '#',
         icon: route[i].meta?.icon as string || '#',
         path: pre + route[i].path || '',
-        fullpath: route[i].fullpath || ''
+        fullpath: route[i].fullpath || '',
       }
       if (route[i].children) {
         menu[i].children = generatorRouteMenu(route[i].children!, power, pre + route[i].path || '') || {}
@@ -64,7 +74,7 @@ export const useRouteMenuStore = defineStore('routeMenu', () => {
     return menu
   }
   const generator = (route:RouteRecordRaw[],power: string = '*') => {
-    routeMenu.value = generatorRouteMenu(route, power)
+    routeMenu.value = generatorRouteMenu(route[0].children || [], power)
   }
   const setMenuOpen = (m:string) => menuOpen.value = m
   const getMenuOpen = () => menuOpen.value

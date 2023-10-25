@@ -5,7 +5,7 @@ import { useUserStateStore, useRouteMenuStore, useRouteNavStore, useNotKeepAlive
 const generatorRouteMenu = () => {
   const routeMenu = useRouteMenuStore()
   const userState = useUserStateStore()
-  const power = userState.getPower()
+  const power = userState.getPower() || window.sessionStorage.getItem('power') || 'none'
   routeMenu.generator(generatorRoute,power)
 }
 
@@ -21,13 +21,15 @@ router.beforeEach((to, from, next) => {
   const routeNavStore = useRouteNavStore()
   const notKeepAliveCache = useNotKeepAliveStore()
   generatorRouteMenu()
-  if (to.name && !whitePath.includes(to.name as string) && !window.sessionStorage.getItem('uid')) {
+  if (to.name && !whitePath.includes(to.name as string) && !window.sessionStorage.getItem('token')) {
     next({ name: 'login' })
-  } else if (to.name && to.name == 'login' && window.sessionStorage.getItem('uid')) {
+  } else if (to.name && to.name == 'login' && window.sessionStorage.getItem('token')) {
     next({ name: 'dataShow' })
   } else {
     notKeepAliveCache.removeExcludes([to.name!])
-    routeNavStore.add({path: to.fullPath, name: to.name || '', title: to.meta.title as string})
+    if (to.meta.title) {
+      routeNavStore.add({path: to.fullPath, name: to.name || '', title: to.meta.title as string})
+    }
     next()
   }
 })

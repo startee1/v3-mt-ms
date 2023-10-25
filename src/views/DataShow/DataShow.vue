@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { DataShowApi } from '@/services/api'
 import type { ECharts, EChartsOption } from 'echarts'
 import { init } from 'echarts'
 
@@ -6,10 +7,8 @@ import { init } from 'echarts'
 
 let chart: ECharts;
 let chartVisit: ECharts;
-let chartUser: ECharts;
 const chartRef: Ref<HTMLElement | null> = ref(null) // 用户分布图
 const chartVisitRef: Ref<HTMLElement | null> = ref(null) // 每月访问量
-const chartUserRef: Ref<HTMLElement | null> = ref(null) // 用户数目
 
 const initChart = () => {
   const option: EChartsOption = {
@@ -29,7 +28,6 @@ const initChart = () => {
         data: [
           { value: 1048, name: '管理员' },
           { value: 735, name: '商铺铺主' },
-          { value: 580, name: '员工' },
         ],
         emphasis: {
           itemStyle: {
@@ -81,37 +79,41 @@ const initChartVisit = () => {
   }
   chartVisit.setOption(option);
 }
-const initChartUser = () => {
-  const option: EChartsOption = {
-    title: {
-      text: '每日新增用户',
-      left: 'center'
-    },
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      type: 'value'
-    },
-    series: [
-      {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'line',
-        smooth: true
-      }
-    ]
-  };
-  chartUser.setOption(option);
-}
+const usernum = ref(0)
+const visitnum = ref(0)
+const goodsnum = ref(0)
 
 onMounted(() => {
   chart = init(chartRef.value as HTMLElement)
   chartVisit = init(chartVisitRef.value as HTMLElement)
-  chartUser = init(chartUserRef.value as HTMLElement)
   initChart()
   initChartVisit()
-  initChartUser()
+  DataShowApi()
+  .then(res => {
+    if(res) {
+      console.log(res)
+      usernum.value = res.data.user.length
+      visitnum.value = res.data.sum[0].sum || 0
+      goodsnum.value = res.data.goods
+      let data = [{value: 0,name:'管理员'},{value: 0,name:'商铺'}]
+      for(let i = 0; i < res.data.user.length; i++){
+        if(res.data.user[i].power === '管理员') data[0].value++
+        else if(res.data.user[i].power === '商铺') data[1].value++
+      }
+      let entryNum = [],entryDay = []
+      for(let j = 0; j < res.data.entry.length; j++){
+        entryNum.push(res.data.entry[j].num)
+        entryDay.push(res.data.entry[j].day)
+      }
+      chart.setOption({
+        series:[{data}]
+      })
+      chartVisit.setOption({
+        xAxis:{data: entryDay},
+        series: [{data: entryNum}]
+      })
+    }
+  })
   // 延时2秒后执行增量更新
   // setTimeout(() => {
   //   updateChart()
@@ -125,24 +127,21 @@ onMounted(() => {
   <el-scrollbar>
     <div class="line-1">
       <div class="data data-all1">
-        <div class="data-title">数据</div>
-        <div class="data-number">123123123</div>
+        <div class="data-title">用户数</div>
+        <div class="data-number">{{ usernum }}</div>
       </div>
       <div class="data data-all2">
-        <div class="data-title">数据</div>
-        <div class="data-number">123123123</div>
+        <div class="data-title">访问量</div>
+        <div class="data-number">{{ visitnum }}</div>
       </div>
       <div class="data data-all3">
-        <div class="data-title">数据</div>
-        <div class="data-number">123123123</div>
+        <div class="data-title">商品量</div>
+        <div class="data-number">{{ goodsnum }}</div>
       </div>
     </div>
     <div class="line-2">
       <div ref="chartRef" class="chart1"></div>
-    </div>
-    <div class="line-3">
       <div ref="chartVisitRef" class="chartVisit"></div>
-      <div ref="chartUserRef" class="chartUser"></div>
     </div>
   </el-scrollbar>
 </template>
@@ -179,18 +178,18 @@ onMounted(() => {
   background-color: #1ca76b;
 }
 .data-all3 {
-  background-color: #801b6a;
+  background-color: #d85dbd;
 }
 .chart1 {
-  width: 400px;
+  width: 50%;
   height: 400px;
 }
-.line-3 {
+.line-2 {
   display: flex;
   justify-content: space-around;
 }
 .chartVisit {
-  width: 40%;
+  width: 50%;
   height: 400px;
 }
 .chartUser {

@@ -1,46 +1,95 @@
 <script setup lang="ts">
-import ShopForm from '@/views/Shop/children/ShopForm.vue'
-
-const AddShopDialog = ref<boolean>(false)
+import { UserListApi, DeleteUserApi, UserCountApi, RegisterShopApi } from '@/services/api'
+import timestampToDate from '@/utils/timestampToDate'
 
 const tableData = ref([
   {
+    'id': '123',
     'name': 'aabb',
     'username': 'asda*****asdad',
-    'pwd': 'aabsa*****asdsab',
-    'status': '管理员',
+    'pubdate': '123',
+    'power': '管理员',
   },
   {
+    'id': '123',
     'name': 'aabb',
     'username': 'asdas*****sasdad',
-    'pwd': 'aabs*****sdsab',
-    'status': '商铺',
+    'pubdate': '123',
+    'power': '商铺',
   },
 ])
+const dialogVisible = ref<boolean>(false)
+const shopUsername = ref<string>('')
+const shopPassword = ref<string>('111111')
+const currentPage = ref<number>(1)
+const pageCount = ref<number>(0)
 // 删除用户信息
-const handleDelete = (_1:any,_2:any)=>{
-  console.log('delete',_1,_2)
+const handleDelete = (_:any,row:any)=>{
+  DeleteUserApi(row.id)
+  .then(res => {
+    if (res) {
+      getUserInfo()
+    }
+  })
 }
-
+const registerShop = () => {
+  RegisterShopApi()
+  .then(res => {
+    if (res) {
+      shopUsername.value = res.data.username
+      dialogVisible.value = true
+    }
+  })
+}
+// 关闭弹窗
+const handleClose = (done: () => void) => {
+  getUserInfo()
+  done()
+}
+// 页码更改
+const handlePage = () => {
+  getUserInfo()
+}
+const getUserInfo = () => {
+  return Promise.all([UserListApi(currentPage.value), UserCountApi()]).then((result) => {
+    let userList = result[0]
+    let userCount = result[1]
+    if (userList)  tableData.value = userList.data
+    if (userCount)  pageCount.value = userCount.data
+  }).catch((error) => {
+    ElMessage.error('获取失败：', error)
+  })
+}
+onMounted(() => {
+  getUserInfo()
+})
 </script>
 
 <template>
   <div>
-    <el-button @click="AddShopDialog = true">添加商铺</el-button>
+    <el-button @click="registerShop">添加商铺</el-button>
     <el-divider />
     <el-table :data="tableData" border style="width: 100%;margin-bottom: 20px;">
+      <el-table-column prop="id" label="id" v-if="false" />
       <el-table-column prop="name" label="用户名" width="180" />
       <el-table-column prop="username" label="账号" width="180" />
-      <el-table-column prop="pwd" label="密码" />
       <el-table-column
-        prop="status"
+        prop="pubdate"
+        label="登录日期"
+      >
+        <template #default="scope">
+          <span>{{ timestampToDate(scope.row.pubdate).getLocalDate() }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="power"
         label="身份"
       >
         <template #default="scope">
           <el-tag
-          :type="scope.row.status === '管理员' ? '' : 'success'"
+          :type="scope.row.power === '管理员' ? '' : 'success'"
           >
-          {{ scope.row.status }}
+          {{ scope.row.power }}
           </el-tag>
         </template>
       </el-table-column>
@@ -56,11 +105,19 @@ const handleDelete = (_1:any,_2:any)=>{
       small
       background
       layout="prev, pager, next"
-      :total="50"
+      :total="pageCount"
+      @current-change="handlePage"
+      v-model:current-page="currentPage"
       class="mt-4"
     />
-    <el-dialog v-model="AddShopDialog">
-      <ShopForm />
+    <el-dialog
+      v-model="dialogVisible"
+      title="Tips"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <div>账号：<span>{{ shopUsername }}</span></div>
+      <div>密码：<span>{{ shopPassword }}</span></div>
     </el-dialog>
   </div>
 </template>

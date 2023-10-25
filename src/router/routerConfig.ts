@@ -142,7 +142,7 @@ const children = [
         redirect: '',
         componentPath: 'AdminShop/AdminShopOrder',
         meta: {
-          title: '商铺评论',
+          title: '商铺订单',
           icon: 'goods',
           target: '',
           permission: '管理员',
@@ -203,7 +203,7 @@ const children = [
           title: '商品列表',
           icon: 'goods',
           target: '',
-          permission: 'admin:shop:user',
+          permission: '商铺',
           keepAlive: true
         },
       },
@@ -264,6 +264,20 @@ const children = [
         },
       },
     ]
+  },
+  {
+    path: 'menu',
+    fullpath: 'menu',
+    name: 'menu',
+    componentPath: 'Menu/Menu',
+    meta: {
+      title: '菜单管理',
+      permission: '商铺',
+      icon: '#',
+      keepAlive: true,
+      keepRoute: true
+    },
+    children: []
   },
   {
     path: 'settings',

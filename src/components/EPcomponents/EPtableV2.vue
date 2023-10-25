@@ -183,7 +183,7 @@ const rebuildData = (data)=>{
       for(let j in temdata[i]){
         let canedit = true;
         if(j != 'id'){
-          if(( edit == 'yes' && editArray.includes(temdata[i][j]) ) || ( edit == 'no' && !editArray.includes(temdata[i][j]) )){
+          if(( edit == 'yes' && editArray.includes(j) ) || ( edit == 'no' && !editArray.includes(j) )){
             temdata[i][j] = {
               value: temdata[i][j],
               canedit,
