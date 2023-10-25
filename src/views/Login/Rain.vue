@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script setup lang="js">
 
-const el = ref<HTMLCanvasElement>()
-const canvas = computed(() => el.value!.getContext('2d')!)
+const el = ref()
+const canvas = computed(() => el.value.getContext('2d'))
 
 const e = {
   width: 800,
@@ -25,31 +25,7 @@ const e = {
 }
   , Starback = class {
     static DefaultConfig = e;
-    canvas: any;
-    ctx: any;
-    repeat: number;
-    stars: any[];
-    frontCallbacks: any[];
-    behindCallbacks: any[];
-    fps: number;
-    lastCalledTime: number;
-    lastGenerated: number;
-    speed: any;
-    directionY: number | undefined;
-    directionX: any;
-    starColor: any;
-    maxStar: any;
-    slope: any;
-    starSize: any;
-    showFps: any;
-    backgroundColor: any;
-    distanceX: any;
-    frequency: any;
-    randomOpacity: any;
-    spread: any;
-    width!: number;
-    height!: number;
-    constructor(t: HTMLCanvasElement | string | undefined, s = {}) {
+    constructor(t, s = {}) {
       this.canvas = t instanceof HTMLCanvasElement ? t : document.querySelector(t),
         this.ctx = this.canvas.getContext("2d"),
         this.mergeConfig(s),
@@ -75,7 +51,7 @@ const e = {
       }
       ))
     }
-    mergeConfig(t: {}) {
+    mergeConfig(t) {
       const s = Object.assign(e, t);
       this.width = s.width,
       this.height = s.height,
@@ -94,31 +70,31 @@ const e = {
       this.spread = s.spread
     }
     setBackground() {
-      let t: string = '';
+      let t = '';
       "string" == typeof this.backgroundColor ? t = this.backgroundColor : "object" == typeof this.backgroundColor && (t = this.ctx.createLinearGradient(this.canvas.width / 2, 0, this.canvas.width / 2, this.canvas.height),
-        this.backgroundColor.forEach(((s: any, e: number) => {
+        this.backgroundColor.forEach(((s, e) => {
           t.addColorStop(e / this.backgroundColor.length, s)
         }
         ))),
         this.ctx.fillStyle = t,
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     }
-    randomNumber(t: number, s: number) {
+    randomNumber(t, s) {
       return Math.floor(Math.random() * (s - t) + 1) + t
     }
     draw() {
       this.ctx.strokeStyle = "white",
         this.stars.forEach((t => {
-          let s: { addColorStop: (arg0: number, arg1: any) => any; };
+          let s;
           this.behindCallbacks.forEach((t => t(this.ctx))),
             "object" == typeof this.starColor ? (s = this.ctx.createLinearGradient(0, 0, this.canvas.width, this.canvas.height),
-              this.starColor.forEach(((t: any, e: number) => s.addColorStop(e / this.starColor.length, t)))) : s = this.starColor,
+              this.starColor.forEach(((t, e) => s.addColorStop(e / this.starColor.length, t)))) : s = this.starColor,
             this.ctx.save(),
             this.ctx.strokeStyle = s,
             this.ctx.beginPath(),
             this.ctx.moveTo(t.start.x, t.start.y),
             this.ctx.setLineDash([this.starSize, t.startPoint * this.frequency]),
-            this.ctx.lineDashOffset = this.directionY! * (t.progress + t.length),
+            this.ctx.lineDashOffset = this.directionY * (t.progress + t.length),
             this.ctx.quadraticCurveTo(t.curve.x, t.curve.y, t.end.x, t.end.y),
             this.ctx.stroke(),
             this.ctx.closePath(),
@@ -162,10 +138,10 @@ const e = {
       }),
         this.stars
     }
-    addToFront(t: any) {
+    addToFront(t) {
       this.frontCallbacks.push(t)
     }
-    generateStar(t: number) {
+    generateStar(t) {
       for (let s = 0; s < t; s++)
         this.generateRandomStar()
     }
@@ -173,7 +149,7 @@ const e = {
       this.ctx.fillStyle = "white",
         this.ctx.fillText(`${this.fps} fps`, 10, 10)
     }
-    render(t: number) {
+    render(t) {
       this.lastCalledTime || (this.lastCalledTime = t);
       let s = this.lastCalledTime - t;
       this.fps = Math.round(1e3 / s),
@@ -184,7 +160,7 @@ const e = {
         this.update(),
         requestAnimationFrame((t => this.render(t)))
     }
-    randomArr(t: string | any[]) {
+    randomArr(t) {
       return t[Math.floor(Math.random() * t.length)]
     }
   }
@@ -192,8 +168,8 @@ const e = {
 
 onMounted(() => {
   const starback = new Starback(el.value, {
-    width: el.value!.parentElement!.clientWidth,
-    height: el.value!.parentElement!.clientHeight,
+    width: el.value.parentElement.clientWidth,
+    height: el.value.parentElement.clientHeight,
     speed: 5,
     frequency: 5,
     slope: { x: 5, y: 3 },

@@ -100,7 +100,7 @@ const getType = () => {
   ShopTypeApi()
   .then(res => {
     if (res) {
-      let data = []; 
+      let data:Array<{value?: any, label?: any,id?: any,children?: any[]}> = []; 
       for(let i = 0; i < res.data.length; i++) {
         if (res.data[i].parentid == 0) {
           data.push({'value': res.data[i].id, 'label': res.data[i].name, 'id': res.data[i].id})
@@ -108,7 +108,7 @@ const getType = () => {
           for(let j = 0; j < data.length; j++) {
             if (data[j]['id'] == res.data[i].parentid) {
               if (data[j].children) {
-                data[j].children.push({'value': res.data[i].id, 'label': res.data[i].name, 'id': res.data[i].id})
+                data[j].children!.push({'value': res.data[i].id, 'label': res.data[i].name, 'id': res.data[i].id})
               }else{
                 data[j].children = [{'value': res.data[i].id, 'label': res.data[i].name, 'id': res.data[i].id}]
               }

@@ -17,7 +17,7 @@ const router = createRouter({
 
 const whitePath = ['login','register']
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const routeNavStore = useRouteNavStore()
   const notKeepAliveCache = useNotKeepAliveStore()
   generatorRouteMenu()

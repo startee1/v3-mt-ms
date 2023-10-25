@@ -48,7 +48,7 @@ const onDeleteItem = (id: number) => {
   GoodsDelApi(id)
   .then(res => {
     if (res) {
-      if (res.message) ElMessage.success(res.message)
+      if (res.data.message) ElMessage.success(res.data.message)
     }
   })
 }

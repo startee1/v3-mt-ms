@@ -31,7 +31,7 @@ export const constantRouterMap: Array<RouteRecordRaw> = [
   // }
 ]
 
-export const generator = (routerMap:Array<RouteRecordRaw>, parent: string = '') => { 
+export const generator = (routerMap:Array<RouteRecordRaw>) => { 
   return routerMap.map(item => {
     let modules = import.meta.glob('../views/**/*.vue')
     item.component =  modules[`../views/${item.componentPath}.vue`]

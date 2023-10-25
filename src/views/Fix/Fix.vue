@@ -7,9 +7,9 @@ const toggleDark = useToggle(isDark)
 const toggleTheme = () => {
   toggleDark()
 }
-const emits = defineEmits<{
-  handleButton: [type:string, value: any]
-}>()
+// const emits = defineEmits<{
+//   handleButton: [type:string, value: any]
+// }>()
 </script>
 
 <template>

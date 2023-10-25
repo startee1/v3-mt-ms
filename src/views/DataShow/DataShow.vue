@@ -91,7 +91,6 @@ onMounted(() => {
   DataShowApi()
   .then(res => {
     if(res) {
-      console.log(res)
       usernum.value = res.data.user.length
       visitnum.value = res.data.sum[0].sum || 0
       goodsnum.value = res.data.goods

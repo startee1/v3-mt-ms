@@ -24,9 +24,8 @@ const props = withDefaults(defineProps<{goods: IGoods}>(),{
 // 商品信息
 const { goods } = toRefs(props)
 const shopid = ref<number>(0)
-const choiceList = ref([])
+const choiceList = ref<any[]>([])
 choiceList.value = props.goods.choice ? JSON.parse(props.goods.choice) : []
-console.log(choiceList.value)
 // 添加子类型的父类型名称
 const fatname = ref<string>('')
 // 添加父类型名称
@@ -94,7 +93,7 @@ const handleCloseChoice = (child:{name: string, price: number}, choice: string) 
   for (let i = 0; i < choiceList.value.length; i++) {
       if (choice == choiceList.value[i]['name']) {
         let temChild = choiceList.value[i]['children']
-        choiceList.value[i]['children'] = temChild.filter(item => {
+        choiceList.value[i]['children'] = temChild.filter((item: { name: string; price: number }) => {
           return item.name != child.name && item.price != child.price
         })
       }
@@ -196,7 +195,7 @@ onMounted(() => {
         :precision="2" :step="0.1"
         controls-position="right"
       />
-      <span> （￥ {{ (goods.price * goods.discount * 0.1).toFixed(2) }}）</span>
+      <span> （￥ {{ (goods.price! * goods.discount! * 0.1).toFixed(2) }}）</span>
     </el-form-item>
     <el-form-item label="商品标识">
       <el-select v-model="goods.goodsLogo" class="m-2" placeholder="Select" size="large">

@@ -2,7 +2,6 @@
  * 用作路由的连接配置
  */
 import api from './base'
-import type {AxiosRequestConfig } from "axios";
 import type {
   IShop,
   IUser,

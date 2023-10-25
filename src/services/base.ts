@@ -22,7 +22,7 @@ api.interceptors.request.use(
     }
     return config
   }, 
-  (err:AxiosError) => {}
+  (_err:AxiosError) => {}
 )
 api.interceptors.response.use(
   (response:AxiosResponse) => {

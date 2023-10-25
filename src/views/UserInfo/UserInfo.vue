@@ -23,7 +23,7 @@ const update_password = () => {
     UpdateUserPasswordApi(Number(id), username, pwd.value, pwdNew.value)
     .then(res=> {
       if (res) {
-        ElMessage.success(res.message)
+        ElMessage.success(res.data.message)
       }
     })
   }
